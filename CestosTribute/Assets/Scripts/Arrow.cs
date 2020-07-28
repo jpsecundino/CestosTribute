@@ -51,7 +51,7 @@ public class Arrow : MonoBehaviour
         }
         if (Input.GetMouseButtonUp(0) && validClick)
         {
-            // lr.enabled = false;
+            lr.enabled = false;
             validClick = false;
         }
 

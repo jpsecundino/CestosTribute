@@ -27,7 +27,7 @@ public class DragAndThrow : MonoBehaviour
             validClick = false;                              
             endPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             direction = startPos - endPos;
-            // ApplyForce();
+            ApplyForce();
         }
     }
 
