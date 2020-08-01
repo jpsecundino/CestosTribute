@@ -5,34 +5,66 @@ using UnityEngine;
 
 public class DragAndThrow : MonoBehaviour
 {
-    Vector3 startPos, endPos, direction;
-
-    public GameObject movedObject;
-    public bool validClick = false;
-    
-    public float throwForce = 10000;
-
-    [Range (0f,1f)]
-    public float multiplier = 0.5f;
+    public Vector3 startPos, endPos, forceDir;
 
     public Ball ball;
-    //a força depende do tamanho do tamanho do vetor direcao
-                //limitar o tamanho do vetor direcao
+    public GameObject movedObject;
+    
+    public bool validClick = false;
+    public float throwForce = 10000;
+    public float forceMultiplier;
+    public float maxDistance;
+    public float minDistance;
+
     void Update(){
-        if (Input.GetMouseButtonDown(0) && ball.ClickOnBall(Camera.main.ScreenToWorldPoint(Input.mousePosition))) {
-            startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        
+        if(!ball.isActive) 
+            return;
+        
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        if (Input.GetMouseButtonDown(0) && ball.ClickOnBall(mousePosition)) {
             validClick = true;
         }
+        
+        if (Input.GetMouseButton(0) && validClick)
+        {
+            startPos = ball.transform.position;
+            ClipDistance(mousePosition, startPos);
+        }
+
         if (Input.GetMouseButtonUp(0) && validClick) {
             validClick = false;                              
-            endPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            direction = startPos - endPos;
             ApplyForce();
         }
     }
 
     public void ApplyForce(){
-        GetComponent<Rigidbody2D>().AddForce(-direction * throwForce * multiplier);
+        GetComponent<Rigidbody2D>().AddForce( forceDir * forceMultiplier * throwForce);
+    }
+
+    private void  ClipDistance(Vector3 mousePosition, Vector3 startPos){
+    
+        Vector2 objPos = new Vector2(startPos.x, startPos.y);
+        Vector2 mousePos = new Vector2(mousePosition.x, mousePosition.y);
+        
+        forceDir = (mousePos - objPos).normalized;    
+
+        float distance = Vector2.Distance(objPos, mousePos);
+        if (distance <= maxDistance && distance >= minDistance){
+            endPos = mousePosition;
+        }else{
+            if(distance > maxDistance){
+                endPos = ((Vector3)forceDir * maxDistance) + startPos;
+                distance = maxDistance;
+            }else{
+                endPos = startPos;
+                distance = 0;
+            }
+        }
+        
+        forceMultiplier = distance/maxDistance;
+        Debug.Log(forceMultiplier);
     }
 
 }

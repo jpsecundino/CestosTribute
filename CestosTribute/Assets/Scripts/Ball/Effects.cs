@@ -9,13 +9,20 @@ public class Effects : MonoBehaviour
     public GameObject shadow;
     public Shader ballShader;
     public Shader shadowShader;
+    public bool isDissolving;
+    public bool isConsolidating;
+
+    [Range(0f,10f)]
+    public float dissolveSpeed = 0.04f;
+    [Range(0f,10f)]
+    public float consolidateSpeed = 0.04f;
+
+
+    
     private Material ballMaterial;
     private Material shadowMaterial; 
     
     private float dissolvingEffectFade;
-    
-    public bool isDissolving;
-    public bool isConsolidating;
     
 
     private void Awake() {
@@ -48,7 +55,7 @@ public class Effects : MonoBehaviour
 
     public void DissolveRoutine()
     {
-        dissolvingEffectFade -= Time.deltaTime;
+        dissolvingEffectFade -= dissolveSpeed * Time.deltaTime;
 
             if(dissolvingEffectFade <= 0)
             {
@@ -62,7 +69,7 @@ public class Effects : MonoBehaviour
 
     public void ConsolidateRoutine(){
             
-            dissolvingEffectFade += Time.deltaTime;
+            dissolvingEffectFade += consolidateSpeed * Time.deltaTime;
 
             if(dissolvingEffectFade >= 1)
             {

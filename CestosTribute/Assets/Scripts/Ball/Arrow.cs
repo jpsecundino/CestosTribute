@@ -1,79 +1,89 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
- 
+using System;
 public class Arrow : MonoBehaviour
 {
-
-    private Vector3 startPos;
-    private Vector3 endPos;
-    private Camera myCamera;
+    
+    public Vector3 startPoint;
+    public Vector3 endPoint;
+    public GameObject clipPoint;
     public GameObject ball;
-
-    private bool validClick = false;
-    public LineRenderer lr;
-    private Ball ballScript;
+    public DragAndThrow dragAndThrow;
+    [Range(-10f, 10f)]
     public float maxSize = 2f;
     public float minSize = 0.5f;
-    Vector3 camOffset = new Vector3(0, 0, 10);
- 
-    [SerializeField] public AnimationCurve ac;
- 
+    
+    private Ball ballScript;
+    private bool validClick = false;
+    
+    [SerializeField]
+   
+    private SpriteRenderer arrowBodyRenderer;
+    
+    [SerializeField]
+    private SpriteRenderer arrowTopRenderer;
+    
+    private Vector3 bodyInitialScale;
+
+
     void Start()
     {
-        myCamera = Camera.main;
-        ballScript = ball.GetComponent<Ball>();
+        ballScript = ball.GetComponent<Ball>();  
+        dragAndThrow = ball.GetComponent<DragAndThrow>();
+        arrowBodyRenderer.enabled = false;
+        arrowTopRenderer.enabled = false;
+        bodyInitialScale = arrowBodyRenderer.transform.localScale;
     }
- 
+    
+    // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0) && ballScript.ClickOnBall(myCamera.ScreenToWorldPoint(Input.mousePosition)))
+        if(Input.GetMouseButtonDown(0) && ballScript.ClickOnBall(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
         {
             validClick = true;
-            if (lr == null)
-            {
-                lr = gameObject.AddComponent<LineRenderer>();
-            }
-            
-            lr.enabled = true;
-            lr.sortingLayerName = "Sphere";
-            lr.positionCount = 2;
-            startPos = ball.transform.position;
-            lr.SetPosition(0, startPos);
-            lr.useWorldSpace = true;
-            lr.widthCurve = ac;
-            lr.numCapVertices = 10;
-        
+            arrowBodyRenderer.enabled = true;
+            arrowTopRenderer.enabled = true;
         }
         if (Input.GetMouseButton(0) && validClick)
         {
-            allowedDragDistance(myCamera.ScreenToWorldPoint(Input.mousePosition), startPos);
-            lr.SetPosition(1, endPos);
+            startPoint = ball.transform.position;
+            transform.position = startPoint;
+            endPoint = dragAndThrow.endPos;
+            // ClipDistance(endPoint, startPoint);
+            ChangeAngle();
+            UpdateArrowBodySize();
+            UpdateArrowTop();
         }
+        
         if (Input.GetMouseButtonUp(0) && validClick)
         {
-            lr.enabled = false;
+            arrowBodyRenderer.enabled = false;
+            arrowTopRenderer.enabled = false;
             validClick = false;
         }
-
     }
+    
+    private void UpdateArrowTop(){
+        arrowTopRenderer.transform.position = clipPoint.transform.position;
 
-    private void  allowedDragDistance(Vector3 mousePosition, Vector3 startPos){
-        
-        Vector2 objPos = new Vector2(startPos.x, startPos.y);
-        Vector2 mousePos = new Vector2(mousePosition.x, mousePosition.y);
-        Vector2 direction = (mousePos - objPos).normalized;
-
-        float distance = Vector2.Distance(objPos, mousePos);
-
-        if (distance <= maxSize && distance >= minSize){
-            endPos = mousePosition + camOffset;
+        if(startPoint == endPoint){
+            arrowTopRenderer.enabled = false;
         }else{
-            if(distance > maxSize){
-                endPos = ((Vector3)direction * maxSize) + startPos;
-            }else{
-                endPos = startPos;
-            }
+            arrowTopRenderer.enabled = true;
         }
     }
+
+    private void UpdateArrowBodySize(){
+        float distance = Vector2.Distance(startPoint, endPoint);
+        float multiplier = dragAndThrow.forceMultiplier * maxSize;
+        arrowBodyRenderer.transform.localScale = new Vector3(bodyInitialScale.x * multiplier, bodyInitialScale.y, bodyInitialScale.z);
+    }
+
+    private void ChangeAngle(){
+        Vector2 dir = new Vector2( endPoint.x, endPoint.y ) - new Vector2(startPoint.x, startPoint.y);
+        float angle = Vector2.SignedAngle(dir, new Vector2(1,0));
+        transform.rotation = Quaternion.AngleAxis(- angle, Vector3.forward);
+    }
+    
 }
