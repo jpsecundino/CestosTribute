@@ -18,7 +18,7 @@ TagManager:
   - Sphere
   - Map
   - Border
-  - 
+  - UI
   - 
   - 
   - 
@@ -45,6 +45,9 @@ TagManager:
     locked: 0
   - name: Map
     uniqueID: 4245843041
+    locked: 0
+  - name: UI
+    uniqueID: 9087633
     locked: 0
   - name: Sphere
     uniqueID: 3065822961
