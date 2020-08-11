@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Border : MonoBehaviour
 {
-    private void OnTriggerExit2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {   
-        if(other.CompareTag("Sphere")){
-            other.gameObject.GetComponent<Ball>().DestroyBall();
-            
+        if(other.CompareTag("ballCenter")){
+            Debug.Log("Coksaocks");
+            other.gameObject.GetComponentInParent<Ball>().DestroyBall();
         }
     }
 }

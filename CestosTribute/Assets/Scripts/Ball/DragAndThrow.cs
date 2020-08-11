@@ -64,7 +64,7 @@ public class DragAndThrow : MonoBehaviour
         }
         
         forceMultiplier = distance/maxDistance;
-        Debug.Log(forceMultiplier);
+        //Debug.Log(forceMultiplier);
     }
 
 }
