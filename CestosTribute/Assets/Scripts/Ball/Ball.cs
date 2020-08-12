@@ -12,18 +12,19 @@ public class Ball : MonoBehaviour
     private CircleCollider2D ballCenterCollider;
     private Effects ballEffects;
     private DragAndThrow dragAndThrow;
+    public Arrow arrow;
     public float touchRadius = 0.52f;
 
     public GameObject glow;
-    public GameObject ballCenter;
+    private GameObject ballCenter;
     public bool isActive = false;
 
 
-    void Start(){
+    void Awake(){
         
+        dragAndThrow = GetComponent<DragAndThrow>();
 
         ballEffects = GetComponent<Effects>();
-        dragAndThrow = GetComponent<DragAndThrow>();
         
         cc = GetComponent<CircleCollider2D>();
         CreateBall();
@@ -40,7 +41,7 @@ public class Ball : MonoBehaviour
         
         
         float distance = Vector2.Distance(objPos, mousePos);
-        Debug.Log(distance);
+        //Debug.Log(distance);
         return distance <= touchRadius;
         
     }
@@ -65,5 +66,16 @@ public class Ball : MonoBehaviour
         ballCenterCollider.transform.position = transform.position;
         ballCenterCollider.transform.parent = gameObject.transform;
         ballCenter.tag = "ballCenter";
+    }
+
+    public void ReleaseBall(){
+        dragAndThrow.ApplyForce();
+        arrow.DisableArrow(); 
+        dragAndThrow.ForceApplianceEnabled(false);
+    }
+
+    public void EnableBallControl(){
+        dragAndThrow.ForceApplianceEnabled(true);
+        arrow.ArrowDrawingEnabled(true);
     }
 }
