@@ -7,7 +7,7 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     private const int V = 0;
-    private Rigidbody rb;
+    public Rigidbody2D rb;
     private CircleCollider2D cc;
     private CircleCollider2D ballCenterCollider;
     private Effects ballEffects;
@@ -26,6 +26,7 @@ public class Ball : MonoBehaviour
 
         ballEffects = GetComponent<Effects>();
         
+        rb = GetComponent<Rigidbody2D>();
         cc = GetComponent<CircleCollider2D>();
         CreateBall();
         InstantiateCenter();
@@ -72,10 +73,12 @@ public class Ball : MonoBehaviour
         dragAndThrow.ApplyForce();
         arrow.DisableArrow(); 
         dragAndThrow.ForceApplianceEnabled(false);
+        Debug.Log("Entrei");
     }
 
     public void EnableBallControl(){
         dragAndThrow.ForceApplianceEnabled(true);
+        dragAndThrow.ResetForces();
         arrow.ArrowDrawingEnabled(true);
     }
 }

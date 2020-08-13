@@ -8,9 +8,11 @@ public class SumoManager : MonoBehaviour
     public Player[] players;
     public Timer timer;
 
+    private bool roundRunning;
     // Start is called before the first frame update
     void Start()
     {
+        roundRunning = false;
         Timer.OnTimerEnd += ReleasePlayersBalls;
         StartMatch();
     }
@@ -19,19 +21,22 @@ public class SumoManager : MonoBehaviour
     void Update()
     {
         
+        Debug.Log(roundRunning);
+        
     }
 
     public void ReleasePlayersBalls(){
-        Debug.Log("Entrei no ReleasePlayerBalls");
+        roundRunning = true;
+       // Debug.Log("Entrei no ReleasePlayerBalls");
         foreach (Player p in players){
             p.ReleaseBalls();
         }
     }
     public void StartMatch(){
-        StartRound();
+        StartPreparationRound();
 
     }
-    public void StartRound(){
+    public void StartPreparationRound(){
         timer.RestartTimer();
         timer.TimerStart();
         foreach (Player p in players){

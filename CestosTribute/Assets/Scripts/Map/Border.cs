@@ -7,7 +7,7 @@ public class Border : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {   
         if(other.CompareTag("ballCenter")){
-            Debug.Log("Coksaocks");
+           // Debug.Log("Coksaocks");
             other.gameObject.GetComponentInParent<Ball>().DestroyBall();
         }
     }

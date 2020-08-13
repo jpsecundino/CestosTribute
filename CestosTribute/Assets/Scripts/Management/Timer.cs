@@ -10,7 +10,7 @@ public class Timer : MonoBehaviour
     public static event Action OnTimerEnd;
     public static event Action OnTimerStart;
     
-    private bool isTimerActive = false;
+    public bool isTimerActive = false;
     public string startTime = "00:00:00";
     public bool increasing = false;
     public static string milliFormat;
@@ -47,12 +47,12 @@ public class Timer : MonoBehaviour
             else decrease();
             
             if (TimerClass.isZeroed(curTime) && isTimerActive) {
-                isTimerActive = false;
                 OnTimerEnd();
+                isTimerActive = false;
             }
 
         }
-        //Debug.Log(curTime);
+        Debug.Log(curTime +"----"+ isTimerActive);
     }
 
     private void increaseClock()

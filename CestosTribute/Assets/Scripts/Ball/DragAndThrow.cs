@@ -40,12 +40,19 @@ public class DragAndThrow : MonoBehaviour
     }
 
     public void ApplyForce(){
-        GetComponent<Rigidbody2D>().AddForce( forceDir * forceMultiplier * throwForce);
+
+        GetComponent<Rigidbody2D>().AddForce(forceDir * forceMultiplier * throwForce);
         //Debug.Log("Força aplicada: " + forceDir * forceMultiplier * throwForce);
     }
     public void ForceApplianceEnabled(bool b){
         canApplyForce = b;
     }
+
+    public void ResetForces(){
+        forceMultiplier = 0f;
+    }
+
+
     private void  ClipDistance(Vector3 mousePosition, Vector3 startPos){
     
         Vector2 objPos = new Vector2(startPos.x, startPos.y);
