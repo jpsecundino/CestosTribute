@@ -12,12 +12,22 @@ public class Player : MonoBehaviour
     public Ball[] playerBalls; 
 
 
+    public bool isBallsMoving(){
+        foreach(Ball b in playerBalls){
+            if(b.rb.velocity.magnitude != 0f){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void ReleaseBalls(){
 
         foreach (Ball b in playerBalls){
             b.ReleaseBall();
         }
     }
+
     public void EnableControls(){
         foreach (Ball b in playerBalls){
             b.EnableBallControl();

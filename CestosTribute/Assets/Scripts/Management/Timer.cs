@@ -52,7 +52,7 @@ public class Timer : MonoBehaviour
             }
 
         }
-        Debug.Log(curTime +"----"+ isTimerActive);
+        //Debug.Log(curTime +"----"+ isTimerActive);
     }
 
     private void increaseClock()
@@ -110,6 +110,7 @@ public class Timer : MonoBehaviour
         isTimerActive = false;
     }
     public void TimerStart(){
+        //Debug.Log("Timer has started");
         isTimerActive = true;
     }
     public void SetTime(TimerClass time)

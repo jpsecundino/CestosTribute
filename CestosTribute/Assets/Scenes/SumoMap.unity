@@ -866,6 +866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6983de4cea7cfb74baff8f0616b3e50e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTimerActive: 0
   startTime: 00:05:00
   increasing: 0
   isCountdownOn: 0
@@ -1207,7 +1208,7 @@ GameObject:
   - component: {fileID: 689436898}
   - component: {fileID: 689436897}
   m_Layer: 0
-  m_Name: Game_Maanager
+  m_Name: SumoManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

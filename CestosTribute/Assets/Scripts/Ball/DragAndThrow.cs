@@ -11,7 +11,7 @@ public class DragAndThrow : MonoBehaviour
     public GameObject movedObject;
     
     public bool validClick = false;
-    private bool canApplyForce = false;
+    //private bool canApplyForce = false;
     public float throwForce = 10000;
     public float forceMultiplier;
     public float maxDistance;
@@ -19,22 +19,20 @@ public class DragAndThrow : MonoBehaviour
 
     void Update(){
         
-        if(!ball.isActive) 
-            return;
         
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (Input.GetMouseButtonDown(0) && ball.ClickOnBall(mousePosition) && canApplyForce) {
+        if (Input.GetMouseButtonDown(0) && ball.ClickOnBall(mousePosition)) {
             validClick = true;
         }
         
-        if (Input.GetMouseButton(0) && validClick && canApplyForce)
+        if (Input.GetMouseButton(0) && validClick)
         {
             startPos = ball.transform.position;
             ClipDistance(mousePosition, startPos);
         }
 
-        if (Input.GetMouseButtonUp(0) && validClick && canApplyForce) {
+        if (Input.GetMouseButtonUp(0) && validClick) {
             validClick = false;                              
         }
     }
@@ -43,9 +41,6 @@ public class DragAndThrow : MonoBehaviour
 
         GetComponent<Rigidbody2D>().AddForce(forceDir * forceMultiplier * throwForce);
         //Debug.Log("Força aplicada: " + forceDir * forceMultiplier * throwForce);
-    }
-    public void ForceApplianceEnabled(bool b){
-        canApplyForce = b;
     }
 
     public void ResetForces(){

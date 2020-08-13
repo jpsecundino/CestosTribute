@@ -16,7 +16,7 @@ public class Arrow : MonoBehaviour
     
     private Ball ballScript;
     private bool validClick = false;
-    private bool canDrawArrow = false;
+    //private bool  = false;
 
     [SerializeField]
     private SpriteRenderer arrowBodyRenderer;
@@ -39,14 +39,14 @@ public class Arrow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0) && ballScript.ClickOnBall(Camera.main.ScreenToWorldPoint(Input.mousePosition)) && canDrawArrow)
+        if(Input.GetMouseButtonDown(0) && ballScript.ClickOnBall(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
         {
             validClick = true;
             arrowBodyRenderer.enabled = true;
             arrowTopRenderer.enabled = true;
         
         }
-        if (Input.GetMouseButton(0) && validClick && canDrawArrow)
+        if (Input.GetMouseButton(0) && validClick)
         {
             startPoint = ball.transform.position;
             transform.position = startPoint;
@@ -57,7 +57,7 @@ public class Arrow : MonoBehaviour
             UpdateArrowTop();
         }
         
-        if (Input.GetMouseButtonUp(0) && validClick && canDrawArrow)
+        if (Input.GetMouseButtonUp(0) && validClick)
         {          
             validClick = false;
         }
@@ -85,12 +85,15 @@ public class Arrow : MonoBehaviour
         transform.rotation = Quaternion.AngleAxis(- angle, Vector3.forward);
     }
     
-    public void DisableArrow(){
+    private void OnEnable(){
+        arrowBodyRenderer.enabled = true;
+        arrowTopRenderer.enabled = true;
+    }
+    
+    private void OnDisable(){
         arrowBodyRenderer.enabled = false;
         arrowTopRenderer.enabled = false;
-        ArrowDrawingEnabled(false);
     }
-    public void ArrowDrawingEnabled(bool b){
-        canDrawArrow = b;
-    }
+
+    
 }

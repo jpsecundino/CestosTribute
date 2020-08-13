@@ -70,15 +70,20 @@ public class Ball : MonoBehaviour
     }
 
     public void ReleaseBall(){
-        dragAndThrow.ApplyForce();
-        arrow.DisableArrow(); 
-        dragAndThrow.ForceApplianceEnabled(false);
-        Debug.Log("Entrei");
+        dragAndThrow.ApplyForce(); 
+        DisableBallControl();
     }
 
     public void EnableBallControl(){
-        dragAndThrow.ForceApplianceEnabled(true);
+        dragAndThrow.enabled = true;
+        arrow.enabled = true;
         dragAndThrow.ResetForces();
-        arrow.ArrowDrawingEnabled(true);
     }
+
+    public void DisableBallControl(){
+        dragAndThrow.enabled = false;
+        arrow.enabled = false;
+    }
+
+
 }
