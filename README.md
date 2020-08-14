@@ -1,2 +1,2 @@
 # CestosTribute
-Tribute to 10 years old Android game Cestos.
+A game tribute to 10 years old Android game Cestos.
