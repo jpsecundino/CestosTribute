@@ -32,6 +32,12 @@ public class Ball : MonoBehaviour
         InstantiateCenter();
     }
 
+    void Update() {
+        if(rb.velocity.magnitude <= 0.09f){
+            rb.velocity = new Vector3(0,0,0);
+        }    
+    }
+
     public bool ClickOnBall(Vector3 mousePosition){
         
         if(!isActive)
@@ -55,8 +61,10 @@ public class Ball : MonoBehaviour
     public void DestroyBall(){
         ballEffects.Dissolve();
         cc.enabled = false;
+        ballCenter.SetActive(false);
         glow.SetActive(false);
         isActive = false;
+        rb.drag = 5f;
     }
 
 
@@ -73,6 +81,13 @@ public class Ball : MonoBehaviour
         dragAndThrow.ApplyForce(); 
         DisableBallControl();
     }
+    
+    public void DisableBallControl(){
+        dragAndThrow.enabled = false;
+        //Debug.Log("Arrow Ainda esta ativa" + arrow.enabled);
+        arrow.enabled = false;
+        //Debug.Log("Arrow esta desativada" + arrow.enabled);
+    }
 
     public void EnableBallControl(){
         dragAndThrow.enabled = true;
@@ -80,10 +95,6 @@ public class Ball : MonoBehaviour
         dragAndThrow.ResetForces();
     }
 
-    public void DisableBallControl(){
-        dragAndThrow.enabled = false;
-        arrow.enabled = false;
-    }
 
 
 }

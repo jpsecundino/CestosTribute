@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
 
     public bool isBallsMoving(){
         foreach(Ball b in playerBalls){
-            if(b.rb.velocity.magnitude != 0f){
+            if(b.rb != null && b.rb.velocity.magnitude != 0f){
                 return true;
             }
         }
@@ -22,7 +22,6 @@ public class Player : MonoBehaviour
     }
 
     public void ReleaseBalls(){
-
         foreach (Ball b in playerBalls){
             b.ReleaseBall();
         }
@@ -30,7 +29,7 @@ public class Player : MonoBehaviour
 
     public void EnableControls(){
         foreach (Ball b in playerBalls){
-            b.EnableBallControl();
+            if(b.isActive) b.EnableBallControl();
         }
     }
 }

@@ -39,6 +39,7 @@ public class Arrow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log("Situação geral arrow: " + enabled);
         if(Input.GetMouseButtonDown(0) && ballScript.ClickOnBall(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
         {
             validClick = true;
@@ -83,11 +84,6 @@ public class Arrow : MonoBehaviour
         Vector2 dir = new Vector2( endPoint.x, endPoint.y ) - new Vector2(startPoint.x, startPoint.y);
         float angle = Vector2.SignedAngle(dir, new Vector2(1,0));
         transform.rotation = Quaternion.AngleAxis(- angle, Vector3.forward);
-    }
-    
-    private void OnEnable(){
-        arrowBodyRenderer.enabled = true;
-        arrowTopRenderer.enabled = true;
     }
     
     private void OnDisable(){

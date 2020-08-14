@@ -6,10 +6,8 @@ using System;
 
 public class Timer : MonoBehaviour
 {
- 
-    public static event Action OnTimerEnd;
-    public static event Action OnTimerStart;
     
+    public static Action OnTimerRestart;
     public bool isTimerActive = false;
     public string startTime = "00:00:00";
     public bool increasing = false;
@@ -33,7 +31,6 @@ public class Timer : MonoBehaviour
             if(countdownTime < 1)
             {
                 isCountdownOn = false;
-                OnTimerStart();
             }
             else
             {
@@ -47,12 +44,11 @@ public class Timer : MonoBehaviour
             else decrease();
             
             if (TimerClass.isZeroed(curTime) && isTimerActive) {
-                OnTimerEnd();
                 isTimerActive = false;
             }
 
         }
-        //Debug.Log(curTime +"----"+ isTimerActive);
+        Debug.Log(curTime +"----"+ isTimerActive);
     }
 
     private void increaseClock()
@@ -104,6 +100,7 @@ public class Timer : MonoBehaviour
     public void RestartTimer()
     {
         curTime = new TimerClass(startTime);
+        OnTimerRestart();
     }
      
     public void TimerPause(){

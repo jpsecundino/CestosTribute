@@ -13,17 +13,25 @@ public class SumoManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Timer.OnTimerEnd += ReleasePlayersBalls;
         //Debug.Log("SumoManager - Start");
         StartMatch();
     }
 
     // Update is called once per frame
     void FixedUpdate()
-    {
+    {        
+        if (roundRunning){
+            if(AllBallsStopped()){
+                roundRunning = false;
+                Debug.Log("As bolas pararam");
+                StartPreparationRound();
+            }
+            Debug.Log("Esperando as bolas pararem...");
+        }
 
-        Debug.Log(roundRunning);
-        
+        if(TimerClass.isZeroed(timer.curTime) && !roundRunning){
+            ReleasePlayersBalls();
+        }
     }
 
     public bool AllBallsStopped(){
@@ -35,18 +43,19 @@ public class SumoManager : MonoBehaviour
     }
 
     public void ReleasePlayersBalls(){
-        roundRunning = true;
-       // Debug.Log("Entrei no ReleasePlayerBalls");
+        Debug.Log("As bolas foram liberadas!");
         foreach (Player p in players){
             p.ReleaseBalls();
         }
+        
+        roundRunning = true;
     }
     public void StartMatch(){
         StartPreparationRound();
 
     }
     public void StartPreparationRound(){
-        //Debug.Log("SumoManager - StartPreparationRound");
+        Debug.Log("Preparação (Pré-round)");
         roundRunning = false;
         timer.RestartTimer();
         timer.TimerStart();
