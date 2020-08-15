@@ -32,4 +32,16 @@ public class Player : MonoBehaviour
             if(b.isActive) b.EnableBallControl();
         }
     }
+
+    public int BallsDestroyed(){
+        int _count = 0;
+        foreach(Ball b in playerBalls){
+            if(b.isActive == false) _count++;
+        }
+        return _count;
+    }
+
+    public bool AllBallsDestroyed(){
+        return BallsDestroyed() == playerBalls.Length;
+    }
 }

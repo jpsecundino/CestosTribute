@@ -48,7 +48,7 @@ public class Timer : MonoBehaviour
             }
 
         }
-        Debug.Log(curTime +"----"+ isTimerActive);
+        //Debug.Log(curTime +"----"+ isTimerActive);
     }
 
     private void increaseClock()
@@ -100,6 +100,7 @@ public class Timer : MonoBehaviour
     public void RestartTimer()
     {
         curTime = new TimerClass(startTime);
+        Debug.Log("Entrei aqui");
         OnTimerRestart();
     }
      

@@ -28,8 +28,8 @@ public class Ball : MonoBehaviour
         
         rb = GetComponent<Rigidbody2D>();
         cc = GetComponent<CircleCollider2D>();
-        CreateBall();
         InstantiateCenter();
+        CreateBall();
     }
 
     void Update() {
@@ -55,7 +55,12 @@ public class Ball : MonoBehaviour
 
     public void CreateBall(){
         isActive = true;
+        cc.enabled = true;
+        ballCenter.SetActive(true);
+        glow.SetActive(true);
         ballEffects.Consolidate();
+        EnableBallControl();
+        rb.drag = 0.7f;
     }
 
     public void DestroyBall(){
